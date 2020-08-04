@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import compression from 'compression'
 import responseTime from 'response-time'
+import  DbConfig  from './db.config'
 
 export default class ServerConfig {
     constructor({port, middlewares, routers}){
@@ -113,6 +114,8 @@ export default class ServerConfig {
 
     async listen() {
         try {
+            const dbConf = new DbConfig()
+            await dbConf.connectDb()
             this.app.listen(this.port, () => {
                 console.log(`Listening on port: ${this.port}`)
             })
